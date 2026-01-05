@@ -5,8 +5,19 @@ body {
     text-align: center;
     margin-top: 50px;
 }
+
 .completed {
   text-decoration: line-through;
   color: gray;
   border: 1px solid gray;
+}
+
+#todo-container {
+    background: rgb(41, 33, 33);
+    width: 400px;
+    margin: 0 auto;
+    border: 2px solid #0033ff;
+    padding: 20px;
+    color: white;
+    border-radius: 15px;
 }
