@@ -77,6 +77,10 @@ margin-top: 10px;
   background: none;
 } 
 
+.delete-btn:hover, .edit-btn:hover{
+    background-color: #ffffff;
+}
+
 .completed {
   text-decoration: line-through;
   color: gray;
