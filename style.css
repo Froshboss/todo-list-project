@@ -1,3 +1,4 @@
+/* Page styling */
 body {
     background: rgb(182, 24, 24);
     background: radial-gradient(circle, rgb(212, 167, 108) 0%, rgb(130, 167, 202) 100%);
@@ -6,6 +7,7 @@ body {
     margin-top: 50px;
 }
 
+/* Main todo list container styling */
 #todo-container {
     background: rgb(41, 33, 33);
     width: 400px;
@@ -16,6 +18,7 @@ body {
     border-radius: 55px;
 }
 
+/* Header section styling */
 #header {
     margin: 5px;
     font-size: 10px;
@@ -24,10 +27,12 @@ body {
     font-family: 'Times New Roman', Times, serif;
 }
 
+/* Main title styling */
 h1 {
     margin-bottom: 20px;
 }
 
+/* Input box for adding new tasks */
 #input-box {
   width: 200px;
   padding: 10px;
@@ -37,6 +42,7 @@ h1 {
   font-size: 20px;
 }
 
+/* Add task button styling */
 #input-button {
   font-size: 20px;
   cursor: pointer;
@@ -47,18 +53,20 @@ h1 {
   background-color: #f10101;
 }
 
+/* Add button hover effect */
 #input-button:hover {
-  background-color: #96ceee; 
+  background-color: #96ceee;
 }
 
+/* Task list container styling */
 ul {
   list-style: none;
   padding: 0;
   margin-top: 20px;
   text-align:left;
-
 }
 
+/* Individual task item styling */
 li {
 border: 1px solid white;
 border-radius: 5px;
@@ -67,6 +75,7 @@ padding: 10px;
 margin-top: 10px;
 }
 
+/* Edit and delete button styling */
 .edit-btn, .delete-btn {
   float: right;
   color:crimson;
@@ -75,12 +84,14 @@ margin-top: 10px;
   border: none;
   padding: 3px 5px;
   background: none;
-} 
+}
 
+/* Hover effect for edit and delete buttons */
 .delete-btn:hover, .edit-btn:hover{
     background-color: #ffffff;
 }
 
+/* Styling for completed tasks */
 .completed {
   text-decoration: line-through;
   color: gray;
