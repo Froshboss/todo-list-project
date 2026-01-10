@@ -2,6 +2,14 @@ const inputBox = document.getElementById("input-box");
 const listContainer = document.getElementById("list-container");
 const completedCounter = document.getElementById("completed-counter");
 const uncompletedCounter = document.getElementById("uncompleted-counter");
+const sortSelect = document.getElementById("sortSelect");
+
+function loadSort() {
+    const savedSort = localStorage.getItem("sortValue") || "default";
+    sortSelect.value = savedSort;
+}
+
+loadSort();
 
 function addTask() {
     const task = inputBox.value.trim();
@@ -23,34 +31,47 @@ function addTask() {
     listContainer.appendChild(li);
     inputBox.value = "";
 
-    // Query elements after appending
+  
     const checkbox = li.querySelector("input");
     const editBtn = li.querySelector(".edit-btn");
     const taskSpan = li.querySelector("span");
     const deleteBtn = li.querySelector(".delete-btn");
 
-    // Attach event listeners
     editBtn.addEventListener("click", function () {
         const update = prompt("Edit task:", taskSpan.textContent);
         if (update !== null) {
             taskSpan.textContent = update;
             li.classList.remove("completed");
+            checkbox.checked = false;
+            updateCounters();
+            saveData();
+            if (sortSelect.value !== "default") {
+                sortTasks();
+            }
         }
     });
 
-    checkbox.addEventListener("change", function () {  // Use 'change' for better checkbox handling
+    checkbox.addEventListener("change", function () {  
         li.classList.toggle("completed", checkbox.checked);
         updateCounters();
+        saveData();
+        if (sortSelect.value !== "default") {
+            sortTasks();
+        }
     });
 
     deleteBtn.addEventListener("click", function () {
         li.remove();
         updateCounters();
+        saveData();
     });
 
-    // Update counters after adding
+   
     updateCounters();
     saveData();
+    if (sortSelect.value !== "default") {
+        sortTasks();
+    }
 }
 
 function updateCounters() {
@@ -75,6 +96,37 @@ function saveData() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
+function sortTasks() {
+    const sortValue = sortSelect.value;
+    const listItems = Array.from(listContainer.querySelectorAll("li"));
+
+    if (sortValue === "default") {
+        return; 
+    }
+
+    listItems.sort((a, b) => {
+        const textA = a.querySelector("span").textContent.toLowerCase();
+        const textB = b.querySelector("span").textContent.toLowerCase();
+        const completedA = a.querySelector("input").checked;
+        const completedB = b.querySelector("input").checked;
+
+        if (sortValue === "a-z") {
+            return textA.localeCompare(textB);
+        } else if (sortValue === "status") {
+            if (completedA === completedB) {
+                return textA.localeCompare(textB); 
+            }
+            return completedA ? 1 : -1; 
+        }
+    });
+
+  
+    listItems.forEach(li => listContainer.appendChild(li));
+
+
+    localStorage.setItem("sortValue", sortValue);
+}
+
 function loadData() {
     const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     tasks.forEach(task => {
@@ -93,14 +145,12 @@ function loadData() {
         }
 
         listContainer.appendChild(li);
-
-        // Query elements after appending
+       
         const checkbox = li.querySelector("input");
         const editBtn = li.querySelector(".edit-btn");
         const taskSpan = li.querySelector("span");
         const deleteBtn = li.querySelector(".delete-btn");
 
-        // Attach event listeners
         editBtn.addEventListener("click", function () {
             const update = prompt("Edit task:", taskSpan.textContent);
             if (update !== null) {
@@ -112,7 +162,7 @@ function loadData() {
             }
         });
 
-        checkbox.addEventListener("change", function () {  // Use 'change' for better checkbox handling
+        checkbox.addEventListener("change", function () {  
             li.classList.toggle("completed", checkbox.checked);
             updateCounters();
             saveData();
@@ -125,7 +175,11 @@ function loadData() {
         });
     });
     updateCounters();
+    if (sortSelect.value !== "default") {
+        sortTasks();
+    }
 }
 
-// Load data on page load
 loadData();
+
+sortSelect.addEventListener("change", sortTasks);
